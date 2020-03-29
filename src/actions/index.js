@@ -12,11 +12,11 @@ export function invalidateSubreddit(subreddit) {
     return { type: INVALIDATE_SUBREDDIT, subreddit}
 }
 
-export function requestPosts(subreddit) {
+function requestPosts(subreddit) {
     return { type: REQUEST_POSTS, subreddit }
 }
 
-export function receivePosts(subreddit, json) {
+function receivePosts(subreddit, json) {
     return {
         type: RECEIVE_POSTS,
         subreddit,
@@ -25,7 +25,7 @@ export function receivePosts(subreddit, json) {
     }
 }
 
-export function fetchPosts(subreddit) {
+function fetchPosts(subreddit) {
     return function(dispatch) {
         dispatch(requestPosts(subreddit))
 
@@ -34,5 +34,31 @@ export function fetchPosts(subreddit) {
             .then(res => res.json())
             .then(json => dispatch(receivePosts(subreddit, json)))
         )
+    }
+}
+
+function shouldFetchPosts(state, subreddit) {
+    const posts = state.postsBySubreddit[subreddit]
+
+    if (!posts) {
+        return true
+    } else if (posts.isFetching) {
+        return false
+    } else {
+        return posts.didInvalidate
+    }
+}
+
+export function fetchPostsIfNeeded(subreddit) {
+    // This is useful for avoiding a network request if
+    // a cached value is already available.
+    return (dispatch, getState) => {
+        if (shouldFetchPosts(getState(), subreddit)) {         
+            console.log('fetching posts...')
+            return dispatch(fetchPosts(subreddit))
+        } else {
+            console.log('no need to fetch')
+            return Promise.resolve()
+        }
     }
 }
