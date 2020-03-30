@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css'
 import { connect } from 'react-redux'
+import ListOfPosts from './components/ListOfPosts'
 
 function App(props) {
 	return (
@@ -9,19 +10,13 @@ function App(props) {
 				<h1>{ props.selectedSubreddit }</h1>
 			</header>
 			<main>
-				{ props.postsBySubreddit 
-					&& props.subredditKeys.map(key => (
-						<span key={key}>{ key }</span>
-					))
-				}
+				<ListOfPosts />
 			</main>
 		</div>
 	)
 }
 
 const mapStateToProps = (state, ownProps) => ({
-	subredditKeys: Object.keys(state.postsBySubreddit),
-	postsBySubreddit: state.postsBySubreddit,
 	selectedSubreddit: state.selectedSubreddit
 })
 
