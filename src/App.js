@@ -1,13 +1,17 @@
 import React from 'react'
-import './App.css'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 import ListOfPosts from './components/ListOfPosts'
+
+const StyledMainHeader = styled.h1`
+	margin-block-start: 0;
+`
 
 function App(props) {
 	return (
 		<div className="App">
 			<header className="">
-				<h1>{ props.selectedSubreddit }</h1>
+				<StyledMainHeader>All Posts</StyledMainHeader>
 			</header>
 			<main>
 				<ListOfPosts />
