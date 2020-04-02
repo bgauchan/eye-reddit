@@ -18,7 +18,7 @@ const StyledLink = styled.a`
     font-size: 1.05rem;
     letter-spacing: -0.01rem;
     line-height: 1.35rem;
-    margin-bottom: 0.45rem;
+    margin-bottom: 0.4rem;
     text-decoration: none;
 
     :visited {
