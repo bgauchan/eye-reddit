@@ -3,6 +3,7 @@ export const SELECT_SUBREDDIT = 'SELECT_SUBREDDIT'
 export const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT'
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+export const MARK_POST_AS_READ = 'MARK_POST_AS_READ'
 
 export function selectSubreddit(subreddit) {
     return { type: SELECT_SUBREDDIT, subreddit }
@@ -10,6 +11,13 @@ export function selectSubreddit(subreddit) {
 
 export function invalidateSubreddit(subreddit) {
     return { type: INVALIDATE_SUBREDDIT, subreddit}
+}
+
+export function markPostAsRead(postID) {
+    return {
+        type: MARK_POST_AS_READ,
+        postID
+    }
 }
 
 function requestPosts(subreddit) {

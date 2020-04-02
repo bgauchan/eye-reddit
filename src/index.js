@@ -9,7 +9,7 @@ import { selectSubreddit, fetchPostsIfNeeded } from './actions'
 const store = configureStore()
 
 store.dispatch(selectSubreddit('leanfire'))
-store.dispatch(fetchPostsIfNeeded('leanfire')).then(() => console.log(store.getState()))
+store.dispatch(fetchPostsIfNeeded('leanfire'))
 
 ReactDOM.render(
 	<Provider store={store}>

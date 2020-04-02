@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { markPostAsRead } from '../actions'
 
 const StyledListItem = styled.li`
     border-top: 1px solid #f1f1f1;
@@ -111,37 +113,46 @@ const timeDifference = (postCreatedTime) => {
     return ''
 }
 
-const Post = (props) => {
-    let { post } = props
-    let domain = 'https://old.reddit.com/'
-    let url = domain + post.permalink
-    let submittedTimeAgo = timeDifference(post.created_utc)
-    let userProfileUrl = domain + post.author
-    let subredditUrl = domain + post.subreddit_name_prefixed
+class Post extends Component {
+    markPostAsRead(postID) {
+        this.props.dispatch(markPostAsRead(postID))
+    }
+    render() {
+        let { post } = this.props
+        let domain = 'https://old.reddit.com/'
+        let url = domain + post.permalink
+        let submittedTimeAgo = timeDifference(post.created_utc)
+        let userProfileUrl = domain + post.author
+        let subredditUrl = domain + post.subreddit_name_prefixed
 
-    return (
-        <StyledListItem data-post-id={post.id} >
-            <StyledScoreDiv>
-                { post.score }
-            </StyledScoreDiv>
-            <StyledInfoDiv>
-                <StyledLink href={url} target='_blank'>
-                    { post.title }
-                </StyledLink>
-                <StyledGenericLink href={url} target='_blank'>
-                    { post.num_comments } comments
-                </StyledGenericLink>
-                <div className='submitted_info'>
-                    Submitted { submittedTimeAgo } by 
-                    <StyledUserProfileLink href={userProfileUrl} target='_blank'>{ post.author } </StyledUserProfileLink>
-                    on
-                </div>
-                <StyledSubredditLink className='subreddit_name' href={subredditUrl} target='_blank'>
-                    { post.subreddit_name_prefixed }
-                </StyledSubredditLink>
-            </StyledInfoDiv>
-        </StyledListItem>
-    )
+        return (
+            <StyledListItem data-post-id={post.id} onClick={() => this.markPostAsRead(post.id)}>
+                <StyledScoreDiv>
+                    { post.score }
+                </StyledScoreDiv>
+                <StyledInfoDiv>
+                    <StyledLink href={url} target='_blank'>
+                        { post.title }
+                    </StyledLink>
+                    <StyledGenericLink href={url} target='_blank'>
+                        { post.num_comments } comments
+                    </StyledGenericLink>
+                    <div className='submitted_info'>
+                        Submitted { submittedTimeAgo } by 
+                        <StyledUserProfileLink href={userProfileUrl} target='_blank'>{ post.author } </StyledUserProfileLink>
+                        on
+                    </div>
+                    <StyledSubredditLink className='subreddit_name' href={subredditUrl} target='_blank'>
+                        { post.subreddit_name_prefixed }
+                    </StyledSubredditLink>
+                </StyledInfoDiv>
+            </StyledListItem>
+        )
+    }
 }
 
-export default Post
+const mapStateToProps = (state, ownProps) => ({
+	readPosts: state.readPosts
+})
+
+export default connect(mapStateToProps)(Post)
