@@ -1,3 +1,4 @@
+import db from '../firebase'
 
 export const SELECT_SUBREDDIT = 'SELECT_SUBREDDIT'
 export const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT'
@@ -13,11 +14,35 @@ export function invalidateSubreddit(subreddit) {
     return { type: INVALIDATE_SUBREDDIT, subreddit}
 }
 
-export function markPostAsRead(postID) {
+function postRead(postID) {
     return {
         type: MARK_POST_AS_READ,
         postID
     }
+}
+
+export function markPostAsRead(postID) {
+    return (dispatch, getState) => {
+        let state = getState()
+        let readPosts = state.readPosts
+
+        // post already exists in state, then ignore it bcoz
+        // it means, it was read already
+        if(readPosts.includes(postID)) {
+            return
+        }
+
+        db.collection("readPosts").doc('all').set({
+            ids: [...readPosts, postID]
+        })
+        .then(() => {
+            dispatch(postRead(postID))
+            console.log('Firebase: succesfully updated readPosts')
+        })
+        .catch((error) => console.error("Firebase: error adding document: ", error))    
+    }
+
+    
 }
 
 function requestPosts(subreddit) {
