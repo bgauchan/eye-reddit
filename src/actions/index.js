@@ -5,6 +5,10 @@ export const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT'
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const MARK_POST_AS_READ = 'MARK_POST_AS_READ'
+export const REQUEST_READ_POSTS = 'REQUEST_READ_POSTS'
+export const RECEIVE_READ_POSTS = 'RECEIVE_READ_POSTS'
+
+const readPostsDoc = db.collection("readPosts").doc('all')
 
 export function selectSubreddit(subreddit) {
     return { type: SELECT_SUBREDDIT, subreddit }
@@ -32,7 +36,7 @@ export function markPostAsRead(postID) {
             return
         }
 
-        db.collection("readPosts").doc('all').set({
+        readPostsDoc.set({
             ids: [...readPosts, postID]
         })
         .then(() => {
@@ -41,8 +45,35 @@ export function markPostAsRead(postID) {
         })
         .catch((error) => console.error("Firebase: error adding document: ", error))    
     }
+}
 
-    
+function requestReadPosts(subreddit) {
+    return { type: REQUEST_READ_POSTS, subreddit }
+}
+
+function receiveReadPosts(subreddit, data) {
+    return {
+        type: RECEIVE_READ_POSTS,
+        subreddit,
+        ids: data.ids,
+        receivedAt: Date.now()
+    }
+}
+
+export function fetchReadPosts(subreddit) {
+    return function(dispatch) {
+        dispatch(requestReadPosts(subreddit))
+
+        return (
+            readPostsDoc.get().then((doc) => {
+                if (doc.exists) {
+                    dispatch(receiveReadPosts(subreddit, doc.data()))
+                } else {
+                    console.log("No such document!")
+                }
+            }).catch((error) => console.log("Error getting document:", error))
+        )
+    }
 }
 
 function requestPosts(subreddit) {
