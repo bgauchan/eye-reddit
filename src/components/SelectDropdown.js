@@ -12,7 +12,7 @@ const StyledDropdown = styled.div`
     position: relative;
 
     .fa-reddit {
-        font-size: 30px;
+        font-size: 28px;
     }
 
     .add_subreddit_icon {

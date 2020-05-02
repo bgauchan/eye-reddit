@@ -4,11 +4,9 @@ export const SELECT_SUBREDDIT = 'SELECT_SUBREDDIT'
 export const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT'
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
-export const MARK_POST_AS_READ = 'MARK_POST_AS_READ'
-export const REQUEST_READ_POSTS = 'REQUEST_READ_POSTS'
-export const RECEIVE_READ_POSTS = 'RECEIVE_READ_POSTS'
 
-const readPostsDoc = db.collection("readPosts").doc('all')
+const readPostsDoc = db.collection('iisbardan').doc('readPosts')
+const subscriptionsDoc = db.collection('iisbardan').doc('subscriptions')
 
 export function selectSubreddit(subreddit) {
     return { type: SELECT_SUBREDDIT, subreddit }
@@ -17,6 +15,12 @@ export function selectSubreddit(subreddit) {
 export function invalidateSubreddit(subreddit) {
     return { type: INVALIDATE_SUBREDDIT, subreddit}
 }
+
+// -------------------- READ POSTS ------------------------
+
+export const MARK_POST_AS_READ = 'MARK_POST_AS_READ'
+export const REQUEST_READ_POSTS = 'REQUEST_READ_POSTS'
+export const RECEIVE_READ_POSTS = 'RECEIVE_READ_POSTS'
 
 function postRead(postID) {
     return {
@@ -32,9 +36,7 @@ export function markPostAsRead(postID) {
 
         // post already exists in state, then ignore it bcoz
         // it means, it was read already
-        if(readPosts.includes(postID)) {
-            return
-        }
+        if(readPosts.includes(postID)) return
 
         readPostsDoc.set({
             ids: [...readPosts, postID]
@@ -75,7 +77,21 @@ export function fetchReadPosts(subreddit) {
     }
 }
 
-// -------------------- Fetching Posts ------------------------
+// -------------------- SUBSCRIPTIONS ------------------------
+
+export const ADD_SUBSCRIPTION = 'ADD_SUBSCRIPTION'
+export const RECEIVE_SUBSCRIPTIONS = 'RECEIVE_SUBSCRIPTIONS'
+
+export function handleAddingSubscription(subreddit) {
+    return function(dispatch, getState) {
+        let { subscriptions } = getState()
+
+        // already subscribed to, no need to add
+        if(subscriptions.includes(subreddit)) return
+    }
+}
+
+// -------------------- FETCHING POSTS -----------------------
 
 function requestPosts(subreddit) {
     return { type: REQUEST_POSTS, subreddit }
@@ -93,7 +109,7 @@ function receivePosts(subreddit, json) {
 function fetchPosts(subreddit) {
     return function(dispatch, getState) {
         if(subreddit === 'all')  return
-        
+
         dispatch(requestPosts(subreddit))
 
         return (

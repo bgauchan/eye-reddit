@@ -17,7 +17,8 @@ const StyledMainHeader = styled.header`
 `
 
 const StyledEmptyState = styled.div`
-	border: 1px solid #f1f1f1;
+	border: 1px solid #eaeaea;
+	border-radius: 6px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -43,7 +44,7 @@ function App(props) {
 
 				{ !props.postsExists && (
 					<StyledEmptyState>
-						<i class="far fa-sad-tear"></i>
+						<i className="far fa-sad-tear"></i>
 						<span>Sorry, can't find any posts</span>
 					</StyledEmptyState>
 				)}
