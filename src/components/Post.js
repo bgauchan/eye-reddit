@@ -13,6 +13,17 @@ const StyledListItem = styled.li`
         border-top: 0;
         padding-top: 5px;
     }
+
+    .score {
+        background: khaki;
+        border-radius: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 1.8rem;
+        font-size: 0.75rem;
+        height: 1.8rem;
+    }
 `
 
 const StyledLink = styled.a`
@@ -26,17 +37,6 @@ const StyledLink = styled.a`
     :visited {
         color: #8e8d8d;
     }
-`
-
-const StyledScoreDiv = styled.div`
-    background: khaki;
-    border-radius: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 1.8rem;
-    font-size: 0.75rem;
-    height: 1.8rem;
 `
 
 const StyledInfoDiv = styled.div`
@@ -127,9 +127,7 @@ class Post extends Component {
 
         return (
             <StyledListItem data-post-id={post.id} onClick={() => this.markPostAsRead(post.id)}>
-                <StyledScoreDiv>
-                    { post.score }
-                </StyledScoreDiv>
+                <div className="score">{ post.score }</div>
                 <StyledInfoDiv>
                     <StyledLink href={url} target='_blank'>
                         { post.title }

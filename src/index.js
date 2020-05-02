@@ -8,8 +8,8 @@ import { selectSubreddit, fetchPostsIfNeeded, fetchReadPosts } from './actions'
 
 const store = configureStore()
 
-store.dispatch(selectSubreddit('leanfire'))
-store.dispatch(fetchPostsIfNeeded('leanfire'))
+store.dispatch(selectSubreddit('all'))
+store.dispatch(fetchPostsIfNeeded('all'))
 store.dispatch(fetchReadPosts('all'))
 
 ReactDOM.render(

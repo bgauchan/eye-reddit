@@ -41,7 +41,6 @@ export function markPostAsRead(postID) {
         })
         .then(() => {
             dispatch(postRead(postID))
-            console.log('Firebase: succesfully updated readPosts')
         })
         .catch((error) => console.error("Firebase: error adding document: ", error))    
     }
@@ -76,6 +75,8 @@ export function fetchReadPosts(subreddit) {
     }
 }
 
+// -------------------- Fetching Posts ------------------------
+
 function requestPosts(subreddit) {
     return { type: REQUEST_POSTS, subreddit }
 }
@@ -90,7 +91,9 @@ function receivePosts(subreddit, json) {
 }
 
 function fetchPosts(subreddit) {
-    return function(dispatch) {
+    return function(dispatch, getState) {
+        if(subreddit === 'all')  return
+        
         dispatch(requestPosts(subreddit))
 
         return (
@@ -117,11 +120,9 @@ export function fetchPostsIfNeeded(subreddit) {
     // This is useful for avoiding a network request if
     // a cached value is already available.
     return (dispatch, getState) => {
-        if (shouldFetchPosts(getState(), subreddit)) {         
-            console.log('fetching posts...')
+        if (shouldFetchPosts(getState(), subreddit)) {   
             return dispatch(fetchPosts(subreddit))
         } else {
-            console.log('no need to fetch')
             return Promise.resolve()
         }
     }
