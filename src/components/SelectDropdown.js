@@ -4,13 +4,31 @@ import styled from 'styled-components'
 
 const StyledDropdown = styled.div`
     cursor: pointer;
+    display: flex;
+    align-items: center;
     height: 42px;
     font-size: 15px;
-    min-width: 180px;
+    min-width: 280px;
     position: relative;
 
-    &:hover ul {
-        opacity: 1;
+    .fa-reddit {
+        font-size: 30px;
+    }
+
+    .add_subreddit_icon {
+        position: relative;
+        margin-right: 25px;
+
+        &:hover {
+            color: blue;
+        }
+
+        .fa-plus {
+            font-size: 10px;
+            position: absolute;
+            top: 2px;
+            right: -10px;
+        }
     }
 
     .selected {
@@ -18,12 +36,17 @@ const StyledDropdown = styled.div`
         border-radius: 6px;
         display: flex;
         align-items: center;
+        flex: 1;
         height: 100%;
         margin: 0;
         padding: 0 15px;
 
         &:hover {
             color: orchid;
+        }
+
+        &:hover + ul {
+            opacity: 1;
         }
 
         span {
@@ -37,14 +60,15 @@ const StyledDropdown = styled.div`
         box-shadow: 0 2px 6px rgba(0,0,0,0.8);
         color: white;
         opacity: 0;
-        padding: 10px 0;
+        padding: 6px 0;
         position: absolute;
         top: 44px;
+        right: 0;
         transition: opacity 200ms linear;
-        width: 100%;
+        width: 225px;
 
         &:empty {
-            display:none;
+            display: none;
         }
     }
 
@@ -63,6 +87,11 @@ class SelectDropdown extends Component {
         
         return (
             <StyledDropdown>
+                <div className="add_subreddit_icon">
+                    <i className="fas fa-plus"></i>
+                    <i className="fab fa-reddit"></i>
+                </div>
+
                 <div className="selected">
                     <span>{ selectedSubreddit === 'all' ? 'Show All' : ('/r' + selectedSubreddit) }</span>
                     <i className="fas fa-chevron-down"></i>

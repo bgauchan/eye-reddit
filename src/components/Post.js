@@ -20,9 +20,9 @@ const StyledListItem = styled.li`
         display: flex;
         align-items: center;
         justify-content: center;
-        flex: 0 0 1.8rem;
+        flex: 0 0 2.2rem;
         font-size: 0.75rem;
-        height: 1.8rem;
+        height: 2.2rem;
     }
 `
 

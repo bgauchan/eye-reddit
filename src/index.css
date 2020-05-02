@@ -27,9 +27,16 @@ ul {
 }
 
 .App {
+  display: flex;
+  flex-direction: column;
   font-size: 1rem;
   margin: 0 auto;
   max-width: 60rem;
   min-height: 100vh;
   padding: 2rem;
+}
+
+main {
+  display: flex;
+  flex: 1;
 }
