@@ -5,7 +5,7 @@ const subscriptions = (state = [], action) => {
         case ADD_SUBSCRIPTION:
             return [...state, action.subscription]
         case RECEIVE_SUBSCRIPTIONS:
-            return [...state, action.subscriptions]
+            return action.subscriptions ? [...state, action.subscriptions] : []
         default:
             return state
     }

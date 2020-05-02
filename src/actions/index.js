@@ -80,14 +80,34 @@ export function fetchReadPosts(subreddit) {
 // -------------------- SUBSCRIPTIONS ------------------------
 
 export const ADD_SUBSCRIPTION = 'ADD_SUBSCRIPTION'
+export const REQUEST_SUBSCRIPTIONS = 'REQUEST_SUBSCRIPTIONS'
 export const RECEIVE_SUBSCRIPTIONS = 'RECEIVE_SUBSCRIPTIONS'
 
-export function handleAddingSubscription(subreddit) {
-    return function(dispatch, getState) {
-        let { subscriptions } = getState()
+function requestSubscriptions() {
+    return { type: REQUEST_SUBSCRIPTIONS }
+}
 
-        // already subscribed to, no need to add
-        if(subscriptions.includes(subreddit)) return
+function receiveSubscriptions(data) {
+    return {
+        type: RECEIVE_SUBSCRIPTIONS,
+        subscriptions: data.subscriptions,
+        receivedAt: Date.now()
+    }
+}
+
+export function fetchSubscriptions() {
+    return function(dispatch) {
+        dispatch(requestSubscriptions())
+
+        return (
+            subscriptionsDoc.get().then((doc) => {
+                if (doc.exists) {
+                    dispatch(receiveSubscriptions(doc.data()))
+                } else {
+                    console.log("No such document!")
+                }
+            }).catch((error) => console.log("Error getting document:", error))
+        )
     }
 }
 
