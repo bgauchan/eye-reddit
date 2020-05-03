@@ -79,30 +79,103 @@ const StyledDropdown = styled.div`
             color: orchid;
         }
     }
+
+    .add_subreddit_box {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        transition: display 800ms;
+
+        input[type=text] {
+            outline: none;
+            height: 100%;
+            border-radius: 6px;
+            font-size: 15px;
+            border: 1px solid blue;
+            padding: 0 15px;
+        }
+
+        i {
+            color: white;
+            font-size: 16px;
+            margin-left: 25px;
+            position: relative;
+
+            &:after {
+                content: '';
+                height: 28px;
+                width: 28px;
+                background: #f44336;
+                position: absolute;
+                z-index: -1;
+                left: -9px;
+                top: -6px;
+                border-radius: 20px;
+            }
+
+            &.fa-check {
+                &:before {
+                    position: relative;
+                    left: -2px;
+                    font-size: 15px;
+                }
+
+                &:after {
+                    background: #59ce5e;
+                }
+            }
+        }
+    }
 `
 
 class SelectDropdown extends Component {
+    state = {
+        addSubreddit: false
+    }
+    addSubreddit() {
+        this.setState({ addSubreddit: true })
+    }
+    saveSubreddit() {
+        this.setState({ addSubreddit: false })
+    }
+    cancelSubreddit() {
+        this.setState({ addSubreddit: false })
+    }
     render() {
         let { subredditNames, selectedSubreddit } = this.props
         
         return (
             <StyledDropdown>
-                <div className="add_subreddit_icon">
-                    <i className="fas fa-plus"></i>
-                    <i className="fab fa-reddit"></i>
-                </div>
+                { this.state.addSubreddit && (
+                    <div className="add_subreddit_box">
+                        <input type="text" />
+                        <i className="fas fa-times" onClick={() => this.cancelSubreddit()}></i>
+                        <i className="fas fa-check" onClick={() => this.saveSubreddit()}></i>
+                    </div>
+                )}
 
-                <div className="selected">
-                    <span>{ selectedSubreddit === 'all' ? 'Show All' : ('/r' + selectedSubreddit) }</span>
-                    <i className="fas fa-chevron-down"></i>
-                </div>
-                
-                { subredditNames && (
-                    <ul>
-                        { subredditNames.map(name => (						
-                            <li key={name}>{ name }</li>
-                        ))}
-                    </ul>
+                { !this.state.addSubreddit && (
+                    <React.Fragment>
+                        <div className="add_subreddit_icon" onClick={() => this.addSubreddit()}>
+                            <i className="fas fa-plus"></i>
+                            <i className="fab fa-reddit"></i>
+                        </div>
+
+                        <div className="selected">
+                            <span>{ selectedSubreddit === 'all' ? 'Show All' : ('/r' + selectedSubreddit) }</span>
+                            <i className="fas fa-chevron-down"></i>
+                        </div>
+                        
+                        { subredditNames && (
+                            <ul>
+                                { subredditNames.map(name => (						
+                                    <li key={name}>{ name }</li>
+                                ))}
+                            </ul>
+                        )}
+                    </React.Fragment>
                 )}
             </StyledDropdown>
         )
