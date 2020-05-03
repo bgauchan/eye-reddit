@@ -46,10 +46,6 @@ const StyledDropdown = styled.div`
             color: orchid;
         }
 
-        &:hover + ul {
-            opacity: 1;
-        }
-
         span {
             flex: 1;
         }
@@ -60,7 +56,6 @@ const StyledDropdown = styled.div`
         border-radius: 6px;
         box-shadow: 0 2px 6px rgba(0,0,0,0.8);
         color: white;
-        opacity: 0;
         padding: 6px 0;
         position: absolute;
         top: 44px;
@@ -133,7 +128,14 @@ const StyledDropdown = styled.div`
 
 class SelectDropdown extends Component {
     state = {
-        addSubreddit: false
+        addSubreddit: false,
+        showDropdrown: false
+    }
+    showDropdrown() {
+        this.setState({ showDropdrown: true })        
+    }
+    hideDropdrown() {
+        this.setState({ showDropdrown: false })        
     }
     addSubreddit() {
         this.setState({ addSubreddit: true })
@@ -153,7 +155,7 @@ class SelectDropdown extends Component {
         let { subscriptions, selectedSubreddit } = this.props
         
         return (
-            <StyledDropdown>
+            <StyledDropdown onMouseLeave={() => this.hideDropdrown()}>
                 { this.state.addSubreddit && (
                     <div className="add_subreddit_box">
                         <input type="text" className="subreddit" />
@@ -169,12 +171,13 @@ class SelectDropdown extends Component {
                             <i className="fab fa-reddit"></i>
                         </div>
 
-                        <div className="selected">
+                        <div className="selected" onClick={() => this.showDropdrown()}>
+
                             <span>{ selectedSubreddit === 'all' ? 'Show All' : ('/r' + selectedSubreddit) }</span>
                             <i className="fas fa-chevron-down"></i>
                         </div>
                         
-                        { subscriptions && (
+                        { subscriptions && this.state.showDropdrown && (
                             <ul>
                                 { subscriptions.map(name => (						
                                     <li key={name}>{ name }</li>
