@@ -8,11 +8,11 @@ const StyledList = styled.ul`
 `
 
 const Posts = (props) => {
-    let { subreddit } = props
+    let { posts } = props
 
     return (
         <StyledList>
-            { subreddit.items && subreddit.items.map(item => (
+            { posts.items && posts.items.map(item => (
                 <Post key={item.id} post={item} />
             ))}
         </StyledList>

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import ListOfPosts from './components/ListOfPosts'
+import Posts from './components/Posts'
 import SelectDropdown from './components/SelectDropdown'
 
 const StyledMainHeader = styled.header`
@@ -40,7 +40,7 @@ function App(props) {
 				<SelectDropdown />
 			</StyledMainHeader>
 			<main>
-				{ props.postsExists && <ListOfPosts /> }
+				{ props.postsExists && <Posts posts={props.posts} /> }
 
 				{ !props.postsExists && (
 					<StyledEmptyState>
@@ -55,12 +55,12 @@ function App(props) {
 
 const mapStateToProps = (state) => {
 	return {
+		posts: state.posts,
 		selectedSubreddit: state.selectedSubreddit,
-		postsExists: Object.keys(state.postsBySubreddit).length > 0 ? true : false
+		postsExists: state.posts.items.length > 0 ? true : false
 	}
 }
 
 export default connect(
 	mapStateToProps,
-	// mapDispatchToProps
 )(App)

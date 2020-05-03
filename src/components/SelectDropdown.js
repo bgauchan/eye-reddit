@@ -70,6 +70,7 @@ const StyledDropdown = styled.div`
 
     li {
         padding: 8px 15px;
+        text-transform: lowercase;
 
         &:hover {
             color: orchid;

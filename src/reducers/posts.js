@@ -35,19 +35,5 @@ posts = (state = defaultState, action) => {
            return state
     }
 }
-  
-const postsBySubreddit = (state = {}, action)  => {
-    switch (action.type) {
-        case INVALIDATE_SUBREDDIT:
-        case RECEIVE_POSTS:
-        case REQUEST_POSTS:
-            return {
-                ...state,
-                [action.subreddit]: posts(state[action.subreddit], action)
-            }
-        default:
-           return state
-    }
-}
 
-export default postsBySubreddit
+export default posts

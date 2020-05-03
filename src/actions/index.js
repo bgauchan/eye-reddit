@@ -129,6 +129,8 @@ export function addSubscription(subreddit) {
                 type: ADD_SUBSCRIPTION,
                 subreddit
             })
+
+            dispatch(fetchPostsIfNeeded('all'))
         }).catch((error) => console.log("Error getting document:", error))
     }
 }
@@ -152,15 +154,15 @@ function fetchPosts(subreddit) {
     return function(dispatch, getState) {
         let url = ''
         let { subscriptions } = getState()
-
+        
         if(subreddit === 'all')  {
             url = 'https://www.reddit.com/r/'
             subscriptions.forEach(name => url += (name + '+'))
-            url += '/new.json'
+            url += '/hot.json?limit=50'
         } else {
-            url = `https://www.reddit.com/r/${subreddit}/new.json?limit=25`
+            url = `https://www.reddit.com/r/${subreddit}/hot.json?limit=25`
         }
-
+        
         dispatch(requestPosts(subreddit))
 
         return (
@@ -172,22 +174,17 @@ function fetchPosts(subreddit) {
 }
 
 function shouldFetchPosts(state, subreddit) {
-    const posts = state.postsBySubreddit[subreddit]
-
-    if (!posts) {
-        return true
-    } else if (posts.isFetching) {
-        return false
-    } else {
-        return posts.didInvalidate
-    }
+    // in the future, we need to load from cache first if possible,
+    // then fetch if either its not in cache or certain amount of time
+    // has expired
+    return true
 }
 
 export function fetchPostsIfNeeded(subreddit) {
     // This is useful for avoiding a network request if
     // a cached value is already available.
     return (dispatch, getState) => {
-        if (shouldFetchPosts(getState(), subreddit)) {   
+        if (shouldFetchPosts(getState())) {   
             return dispatch(fetchPosts(subreddit))
         } else {
             return Promise.resolve()
