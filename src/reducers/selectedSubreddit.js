@@ -1,6 +1,6 @@
 import { SELECT_SUBREDDIT } from '../actions'
   
-const selectedSubreddit = (state = 'reactjs', action) => {
+const selectedSubreddit = (state = 'all', action) => {
     switch (action.type) {
         case SELECT_SUBREDDIT:
             return action.subreddit

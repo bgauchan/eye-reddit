@@ -90,7 +90,7 @@ function requestSubscriptions() {
 function receiveSubscriptions(data) {
     return {
         type: RECEIVE_SUBSCRIPTIONS,
-        subscriptions: [...data.names],
+        subscriptions: data.names ? [...data.names] : [],
         receivedAt: Date.now()
     }
 }
@@ -103,6 +103,7 @@ export function fetchSubscriptions() {
             subscriptionsDoc.get().then((doc) => {                
                 if (doc.exists) {
                     dispatch(receiveSubscriptions(doc.data()))
+                    dispatch(fetchPostsIfNeeded('all'))
                 } else {
                     console.log("No such document!")
                 }
@@ -149,12 +150,21 @@ function receivePosts(subreddit, json) {
 
 function fetchPosts(subreddit) {
     return function(dispatch, getState) {
-        if(subreddit === 'all')  return
+        let url = ''
+        let { subscriptions } = getState()
+
+        if(subreddit === 'all')  {
+            url = 'https://www.reddit.com/r/'
+            subscriptions.forEach(name => url += (name + '+'))
+            url += '/new.json'
+        } else {
+            url = `https://www.reddit.com/r/${subreddit}/new.json?limit=25`
+        }
 
         dispatch(requestPosts(subreddit))
 
         return (
-            fetch(`https://www.reddit.com/r/${subreddit}.json?limit=25`)
+            fetch(url)
             .then(res => res.json())
             .then(json => dispatch(receivePosts(subreddit, json)))
         )

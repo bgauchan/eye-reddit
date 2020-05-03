@@ -13,7 +13,7 @@ const StyledDropdown = styled.div`
     position: relative;
 
     .fa-reddit {
-        font-size: 28px;
+        font-size: 24px;
     }
 
     .add_subreddit_icon {
@@ -140,9 +140,14 @@ class SelectDropdown extends Component {
     addSubreddit() {
         this.setState({ addSubreddit: true })
     }
-    saveSubreddit() {
+    saveOnEnter(ev) {
+        if(ev.key === "Enter") {
+            this.saveSubreddit()
+        }
+    }
+    saveSubreddit() {        
         this.setState({ addSubreddit: false })
-        
+
         let subreddit = document.querySelector('.subreddit')
         subreddit = subreddit ? subreddit.value : ''
         
@@ -158,7 +163,7 @@ class SelectDropdown extends Component {
             <StyledDropdown onMouseLeave={() => this.hideDropdrown()}>
                 { this.state.addSubreddit && (
                     <div className="add_subreddit_box">
-                        <input type="text" className="subreddit" />
+                        <input type="text" className="subreddit" onKeyDown={(ev) => this.saveOnEnter(ev)} />
                         <i className="fas fa-times" onClick={() => this.cancelSubreddit()}></i>
                         <i className="fas fa-check" onClick={() => this.saveSubreddit()}></i>
                     </div>
@@ -172,7 +177,6 @@ class SelectDropdown extends Component {
                         </div>
 
                         <div className="selected" onClick={() => this.showDropdrown()}>
-
                             <span>{ selectedSubreddit === 'all' ? 'Show All' : ('/r' + selectedSubreddit) }</span>
                             <i className="fas fa-chevron-down"></i>
                         </div>
