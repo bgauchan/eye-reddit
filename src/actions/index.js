@@ -90,7 +90,7 @@ function requestSubscriptions() {
 function receiveSubscriptions(data) {
     return {
         type: RECEIVE_SUBSCRIPTIONS,
-        subscriptions: data.subscriptions,
+        subscriptions: [...data.names],
         receivedAt: Date.now()
     }
 }
@@ -100,7 +100,7 @@ export function fetchSubscriptions() {
         dispatch(requestSubscriptions())
 
         return (
-            subscriptionsDoc.get().then((doc) => {
+            subscriptionsDoc.get().then((doc) => {                
                 if (doc.exists) {
                     dispatch(receiveSubscriptions(doc.data()))
                 } else {
@@ -108,6 +108,27 @@ export function fetchSubscriptions() {
                 }
             }).catch((error) => console.log("Error getting document:", error))
         )
+    }
+}
+
+export function addSubscription(subreddit) {
+    return function(dispatch, getState) {
+        let { subscriptions } = getState()
+
+        // already subscribed, no need to add again
+        if(subscriptions.includes(subreddit)) return
+
+        let subscriptionUpdate = {
+            names: [...subscriptions, subreddit]
+        }
+        
+        subscriptionsDoc.set(subscriptionUpdate)
+        .then(() => {
+            dispatch({  
+                type: ADD_SUBSCRIPTION,
+                subreddit
+            })
+        }).catch((error) => console.log("Error getting document:", error))
     }
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { addSubscription } from '../actions'
 
 const StyledDropdown = styled.div`
     cursor: pointer;
@@ -139,18 +140,23 @@ class SelectDropdown extends Component {
     }
     saveSubreddit() {
         this.setState({ addSubreddit: false })
+        
+        let subreddit = document.querySelector('.subreddit')
+        subreddit = subreddit ? subreddit.value : ''
+        
+        this.props.dispatch(addSubscription(subreddit))
     }
     cancelSubreddit() {
         this.setState({ addSubreddit: false })
     }
     render() {
-        let { subredditNames, selectedSubreddit } = this.props
+        let { subscriptions, selectedSubreddit } = this.props
         
         return (
             <StyledDropdown>
                 { this.state.addSubreddit && (
                     <div className="add_subreddit_box">
-                        <input type="text" />
+                        <input type="text" className="subreddit" />
                         <i className="fas fa-times" onClick={() => this.cancelSubreddit()}></i>
                         <i className="fas fa-check" onClick={() => this.saveSubreddit()}></i>
                     </div>
@@ -168,9 +174,9 @@ class SelectDropdown extends Component {
                             <i className="fas fa-chevron-down"></i>
                         </div>
                         
-                        { subredditNames && (
+                        { subscriptions && (
                             <ul>
-                                { subredditNames.map(name => (						
+                                { subscriptions.map(name => (						
                                     <li key={name}>{ name }</li>
                                 ))}
                             </ul>
@@ -183,7 +189,7 @@ class SelectDropdown extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    subredditNames: Object.keys(state.postsBySubreddit),
+    subscriptions: state.subscriptions,
     selectedSubreddit: state.selectedSubreddit
 })
 
