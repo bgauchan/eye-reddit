@@ -14,6 +14,10 @@ const StyledListItem = styled.li`
         padding-top: 5px;
     }
 
+    &.read a {
+        color: #8e8d8d;
+    }
+
     .score {
         background: khaki;
         border-radius: 2rem;
@@ -35,7 +39,7 @@ const StyledLink = styled.a`
     text-decoration: none;
 
     :visited {
-        color: #8e8d8d;
+        color: blue;
     }
 `
 
@@ -118,18 +122,18 @@ class Post extends Component {
         this.props.dispatch(markPostAsRead(postID))
     }
     render() {
-        let { post } = this.props
+        let { post, readPosts } = this.props
         let domain = 'https://old.reddit.com/'
         let url = domain + post.permalink
         let submittedTimeAgo = timeDifference(post.created_utc)
-        let userProfileUrl = domain + post.author
+        let userProfileUrl = domain + 'user/' + post.author
         let subredditUrl = domain + post.subreddit_name_prefixed
 
         return (
-            <StyledListItem data-post-id={post.id} onClick={() => this.markPostAsRead(post.id)}>
+            <StyledListItem data-post-id={post.id} className={ readPosts.includes(post.id) ? 'read' : '' }>
                 <div className="score">{ post.score }</div>
                 <StyledInfoDiv>
-                    <StyledLink href={url} target='_blank'>
+                    <StyledLink href={url} target='_blank' onClick={() => this.markPostAsRead(post.id)}>
                         { post.title }
                     </StyledLink>
                     <StyledGenericLink href={url} target='_blank'>
