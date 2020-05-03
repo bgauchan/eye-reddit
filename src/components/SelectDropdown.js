@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { addSubscription } from '../actions'
+import { addSubscription, selectSubreddit } from '../actions'
 
 const StyledDropdown = styled.div`
     cursor: pointer;
@@ -61,7 +61,7 @@ const StyledDropdown = styled.div`
         top: 44px;
         right: 0;
         transition: opacity 200ms linear;
-        width: 225px;
+        width: 228px;
 
         &:empty {
             display: none;
@@ -157,6 +157,10 @@ class SelectDropdown extends Component {
     cancelSubreddit() {
         this.setState({ addSubreddit: false })
     }
+    selectSubreddit(name) {
+        this.setState({ showDropdrown: false })  
+        this.props.dispatch(selectSubreddit(name))
+    }
     render() {
         let { subscriptions, selectedSubreddit } = this.props
         
@@ -178,14 +182,15 @@ class SelectDropdown extends Component {
                         </div>
 
                         <div className="selected" onClick={() => this.showDropdrown()}>
-                            <span>{ selectedSubreddit === 'all' ? 'Show All' : ('/r' + selectedSubreddit) }</span>
+                            <span>{ selectedSubreddit === 'all' ? 'Show All' : ('r/' + selectedSubreddit) }</span>
                             <i className="fas fa-chevron-down"></i>
                         </div>
                         
                         { subscriptions && this.state.showDropdrown && (
                             <ul>
+                                { selectedSubreddit === 'all' ? '' : <li onClick={() => this.selectSubreddit('all')}>Show All</li> }
                                 { subscriptions.map(name => (						
-                                    <li key={name}>{ name }</li>
+                                    <li key={name} onClick={() => this.selectSubreddit(name)}>{ name }</li>
                                 ))}
                             </ul>
                         )}

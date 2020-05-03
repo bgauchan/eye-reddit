@@ -9,7 +9,10 @@ const readPostsDoc = db.collection('iisbardan').doc('readPosts')
 const subscriptionsDoc = db.collection('iisbardan').doc('subscriptions')
 
 export function selectSubreddit(subreddit) {
-    return { type: SELECT_SUBREDDIT, subreddit }
+    return (dispatch) => {
+        dispatch({ type: SELECT_SUBREDDIT, subreddit })
+        dispatch(fetchPostsIfNeeded(subreddit))
+    }
 }
 
 export function invalidateSubreddit(subreddit) {
@@ -130,7 +133,7 @@ export function addSubscription(subreddit) {
                 subreddit
             })
 
-            dispatch(fetchPostsIfNeeded('all'))
+            dispatch(fetchPostsIfNeeded('all')) 
         }).catch((error) => console.log("Error getting document:", error))
     }
 }
@@ -160,7 +163,7 @@ function fetchPosts(subreddit) {
             subscriptions.forEach(name => url += (name + '+'))
             url += '/hot.json?limit=50'
         } else {
-            url = `https://www.reddit.com/r/${subreddit}/hot.json?limit=25`
+            url = `https://www.reddit.com/r/${subreddit}/hot.json?limit=50`
         }
         
         dispatch(requestPosts(subreddit))
