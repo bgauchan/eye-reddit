@@ -5,7 +5,7 @@ import {
 } from '../actions'
 
 let defaultState = {
-    isFetching: false,
+    isFetching: true,
     didInvalidate: false,
     items: []
 },

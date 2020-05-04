@@ -34,7 +34,7 @@ const StyledLink = styled.a`
     display: block;
     font-size: 1.05rem;
     letter-spacing: -0.01rem;
-    line-height: 1.35rem;
+    line-height: 1.4rem;
     margin-bottom: 0.4rem;
     text-decoration: none;
 

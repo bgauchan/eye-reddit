@@ -48,6 +48,7 @@ const StyledDropdown = styled.div`
 
         span {
             flex: 1;
+            font-size: 14px;
         }
     }
 
