@@ -141,7 +141,11 @@ export function addSubscription(subreddit) {
 // -------------------- FETCHING POSTS -----------------------
 
 function requestPosts(subreddit) {
-    return { type: REQUEST_POSTS, subreddit }
+    return { 
+        type: REQUEST_POSTS, 
+        subreddit,
+        isFetching: true
+    }
 }
 
 function receivePosts(subreddit, json) {
@@ -149,7 +153,8 @@ function receivePosts(subreddit, json) {
         type: RECEIVE_POSTS,
         subreddit,
         posts: json.data.children.map(child => child.data),
-        receivedAt: Date.now()
+        receivedAt: Date.now(),
+        isFetching: false
     }
 }
 

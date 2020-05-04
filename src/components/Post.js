@@ -32,7 +32,7 @@ const StyledListItem = styled.li`
 
 const StyledLink = styled.a`
     display: block;
-    font-size: 1.05rem;
+    font-size: 1rem;
     letter-spacing: -0.01rem;
     line-height: 1.4rem;
     margin-bottom: 0.4rem;
