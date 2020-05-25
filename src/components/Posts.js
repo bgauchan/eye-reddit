@@ -3,6 +3,7 @@ import Post from './Post'
 import styled from 'styled-components'
 
 const StyledList = styled.ul`
+    background: white;
     border: 1px solid #f1f1f1;
     border-radius: 4px;
 `

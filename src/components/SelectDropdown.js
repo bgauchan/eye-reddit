@@ -59,7 +59,8 @@ const StyledDropdown = styled.div`
         color: white;
         padding: 6px 0;
         position: absolute;
-        top: 44px;
+        top: 42px;
+        z-index: 1;
         right: 0;
         transition: opacity 200ms linear;
         width: 228px;
@@ -159,7 +160,7 @@ class SelectDropdown extends Component {
         this.setState({ addSubreddit: false })
     }
     selectSubreddit(name) {
-        this.setState({ showDropdrown: false })  
+        this.hideDropdrown()
         this.props.dispatch(selectSubreddit(name))
     }
     render() {
@@ -189,7 +190,7 @@ class SelectDropdown extends Component {
                         
                         { subscriptions && this.state.showDropdrown && (
                             <ul>
-                                { selectedSubreddit === 'all' ? '' : <li onClick={() => this.selectSubreddit('all')}>Show All</li> }
+                                <li onClick={() => this.selectSubreddit('all')}>Show All</li>
                                 { subscriptions.map(name => (						
                                     <li key={name} onClick={() => this.selectSubreddit(name)}>{ name }</li>
                                 ))}

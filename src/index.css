@@ -27,16 +27,28 @@ ul {
 }
 
 .App {
+  background: #f8f3f2;
   display: flex;
-  flex-direction: column;
   font-size: 1rem;
   margin: 0 auto;
-  max-width: 60rem;
   min-height: 100vh;
-  padding: 2rem;
 }
 
-main {
+.App aside {
+  background: white;
+  border-right: 1px solid #f0edec;
+  height: 100vh;
+  position: fixed;
+  width: 260px;
+}
+
+.App main {
+  margin-left: 260px;
+}
+
+.content {
   display: flex;
-  flex: 1;
+  padding: 0 40px;
+  position: relative;
+  top: -60px;
 }
