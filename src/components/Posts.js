@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const StyledList = styled.ul`
     background: white;
     border: 1px solid #f1f1f1;
-    border-radius: 4px;
+    border-radius: 6px;
 `
 
 const StyledEmptyState = styled.div`
