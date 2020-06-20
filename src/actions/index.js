@@ -32,20 +32,21 @@ function postRead(postID) {
     }
 }
 
-export function markPostAsRead(postID) {
+export function markPostAsRead(post) {
     return (dispatch, getState) => {
         let state = getState()
-        let readPosts = state.readPosts
+        let readPostIDs = state.readPostIDs
 
         // post already exists in state, then ignore it bcoz
         // it means, it was read already
-        if(readPosts.includes(postID)) return
+        if(readPostIDs.includes(post.id)) return
 
         readPostsDoc.set({
-            ids: [...readPosts, postID]
+            ids: [...readPostIDs, post.id],
+            // posts: [...state.posts, post]
         })
         .then(() => {
-            dispatch(postRead(postID))
+            dispatch(postRead(post.id))
         })
         .catch((error) => console.error("Firebase: error adding document: ", error))    
     }

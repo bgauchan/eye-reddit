@@ -118,11 +118,11 @@ const timeDifference = (postCreatedTime) => {
 }
 
 class Post extends Component {
-    markPostAsRead(postID) {
-        this.props.dispatch(markPostAsRead(postID))
+    markPostAsRead(post) {
+        this.props.dispatch(markPostAsRead(post))
     }
     render() {
-        let { post, readPosts } = this.props
+        let { post, readPostIDs } = this.props
         let domain = 'https://old.reddit.com/'
         let url = domain + post.permalink
         let submittedTimeAgo = timeDifference(post.created_utc)
@@ -130,10 +130,10 @@ class Post extends Component {
         let subredditUrl = domain + post.subreddit_name_prefixed
 
         return (
-            <StyledListItem data-post-id={post.id} className={ readPosts.includes(post.id) ? 'read' : '' }>
+            <StyledListItem data-post-id={post.id} className={ readPostIDs.includes(post.id) ? 'read' : '' }>
                 <div className="score">{ post.score }</div>
                 <StyledInfoDiv>
-                    <StyledLink href={url} target='_blank' onClick={() => this.markPostAsRead(post.id)}>
+                    <StyledLink href={url} target='_blank' onClick={() => this.markPostAsRead(post)}>
                         { post.title }
                     </StyledLink>
                     <StyledGenericLink href={url} target='_blank'>
@@ -154,7 +154,7 @@ class Post extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-	readPosts: state.readPosts
+	readPostIDs: state.readPostIDs
 })
 
 export default connect(mapStateToProps)(Post)

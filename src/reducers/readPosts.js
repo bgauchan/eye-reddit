@@ -1,6 +1,6 @@
 import { MARK_POST_AS_READ, RECEIVE_READ_POSTS } from '../actions'
   
-const readPosts = (state = [], action) => {
+const readPostIDs = (state = [], action) => {
     switch (action.type) {
         case MARK_POST_AS_READ:
             return [...state, action.postID]
@@ -11,4 +11,4 @@ const readPosts = (state = [], action) => {
     }
 }
 
-export default readPosts
+export default readPostIDs

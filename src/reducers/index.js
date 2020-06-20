@@ -1,12 +1,12 @@
 import posts from './posts'
 import selectedSubreddit from './selectedSubreddit'
-import readPosts from './readPosts'
+import readPostIDs from './readPosts'
 import subscriptions from './subscriptions'
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
     subscriptions,
-    readPosts,
+    readPostIDs,
     posts,
     selectedSubreddit,
 })
