@@ -32,7 +32,7 @@ const StyledListItem = styled.li`
 
 const StyledLink = styled.a`
     display: block;
-    font-size: 1rem;
+    font-size: 0.96rem;
     letter-spacing: -0.01rem;
     line-height: 1.4rem;
     margin-bottom: 0.4rem;
@@ -133,7 +133,7 @@ class Post extends Component {
             <StyledListItem data-post-id={post.id} className={ readPostIDs.includes(post.id) ? 'read' : '' }>
                 <div className="score">{ post.score }</div>
                 <StyledInfoDiv>
-                    <StyledLink href={url} target='_blank' onClick={() => this.markPostAsRead(post)}>
+                    <StyledLink href={url} target='_blank' onClick={() => this.markPostAsRead(post)} rel="noopener noreferrer">
                         { post.title }
                     </StyledLink>
                     <StyledGenericLink href={url} target='_blank'>

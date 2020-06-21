@@ -116,15 +116,15 @@ function App(props) {
 				</ul>
 				
 				<div className="links">
-					<a href="https://old.reddit.com/message/inbox/" target="_blank">
+					<a href="https://old.reddit.com/message/inbox/" target="_blank" rel="noopener noreferrer">
 						<i className="far fa-envelope"></i>
 						<span>Messages</span>
 					</a>
-					<a href="https://old.reddit.com/prefs/" target="_blank">
+					<a href="https://old.reddit.com/prefs/" target="_blank" rel="noopener noreferrer">
 						<i className="far fa-comment"></i>
 						<span>Chat</span>
 					</a>
-					<a href="https://old.reddit.com/chat/" target="_blank">
+					<a href="https://old.reddit.com/chat/" target="_blank" rel="noopener noreferrer">
 						<i className="fas fa-sliders-h"></i>
 						<span>Preferences</span>
 					</a>

@@ -44,10 +44,12 @@ export function markPostAsRead(post) {
             return
         } else {
             // make sure the array never goes above 50
-            readPostIDs = readPostIDs.slice(readPostIDs.length - 49, readPostIDs.length + 49)
+            if(readPostIDs.length > 50) {
+                readPostIDs.shift()
+            }
 
             if(readPosts.length > 50) {
-                readPosts = readPosts.slice(readPosts.length - 49, readPosts.length + 49)
+                readPosts = readPosts.shift()
             }
         }
 
@@ -71,6 +73,7 @@ function receiveReadPosts(subreddit, data) {
         type: RECEIVE_READ_POSTS,
         subreddit,
         ids: data.ids,
+        posts: data.posts,
         receivedAt: Date.now()
     }
 }
