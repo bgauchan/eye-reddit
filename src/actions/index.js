@@ -34,16 +34,26 @@ function postRead(postID) {
 
 export function markPostAsRead(post) {
     return (dispatch, getState) => {
-        let state = getState()
+        const state = getState()
         let readPostIDs = state.readPostIDs
+        let readPosts = state.readPosts || []
 
         // post already exists in state, then ignore it bcoz
         // it means, it was read already
-        if(readPostIDs.includes(post.id)) return
+        if(readPostIDs.includes(post.id)) {
+            return
+        } else {
+            // make sure the array never goes above 50
+            readPostIDs = readPostIDs.slice(readPostIDs.length - 49, readPostIDs.length + 49)
+
+            if(readPosts.length > 50) {
+                readPosts = readPosts.slice(readPosts.length - 49, readPosts.length + 49)
+            }
+        }
 
         readPostsDoc.set({
             ids: [...readPostIDs, post.id],
-            // posts: [...state.posts, post]
+            posts: [...readPosts, post]
         })
         .then(() => {
             dispatch(postRead(post.id))
