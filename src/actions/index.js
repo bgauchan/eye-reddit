@@ -25,10 +25,10 @@ export const MARK_POST_AS_READ = 'MARK_POST_AS_READ'
 export const REQUEST_READ_POSTS = 'REQUEST_READ_POSTS'
 export const RECEIVE_READ_POSTS = 'RECEIVE_READ_POSTS'
 
-function postRead(postID) {
+function postRead(post) {
     return {
         type: MARK_POST_AS_READ,
-        postID
+        post
     }
 }
 
@@ -49,16 +49,16 @@ export function markPostAsRead(post) {
             }
 
             if(readPosts.length > 50) {
-                readPosts = readPosts.shift()
+                readPosts.shift()
             }
         }
 
         readPostsDoc.set({
             ids: [...readPostIDs, post.id],
-            posts: [...readPosts, post]
+            posts: [post, ...readPosts]
         })
         .then(() => {
-            dispatch(postRead(post.id))
+            dispatch(postRead(post))
         })
         .catch((error) => console.error("Firebase: error adding document: ", error))    
     }

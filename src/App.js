@@ -92,6 +92,23 @@ const StyledRightSide = styled.div`
 		border-radius: 6px;
 		margin-bottom: 30px;
 		min-height: 100px;
+		padding: 20px 20px 15px;
+	}
+
+	h4 {
+		color: #102b4c;
+		margin-top: 0;
+	}
+
+	a {
+		border-top: 1px solid #f5f4f4;
+		color: #8e8d8d;
+		display: block;
+		font-size: 0.9rem;
+		line-height: 1.5;
+		margin-bottom: 12px;
+		padding-top: 12px;
+		text-decoration: none;
 	}
 `
 
@@ -148,9 +165,15 @@ function App(props) {
 							<Posts posts={props.posts} /> 
 							<StyledRightSide>
 								<section className="recently_visited">
-
+									<h4>Recently Visited:</h4>
+									{ props.readPosts.map(post => (
+										<a key={post.id} href={'https://old.reddit.com/' + post.permalink} target='_blank' rel='noopener noreferrer'>
+											{ post.title }
+										</a>
+									))}
 								</section>
-								<section className="recent_favs">
+								<section className="recent_bookmarks">
+									<h4>Recent Bookmarks:</h4>
 									
 								</section>
 							</StyledRightSide>
@@ -166,7 +189,8 @@ const mapStateToProps = (state) => {
 	let props = {
 		posts: state.posts,
 		selectedSubreddit: state.selectedSubreddit,
-		fetching: state.posts.isFetching
+		fetching: state.posts.isFetching,
+		readPosts: state.readPosts
 	}
 
 	return props
