@@ -17,6 +17,16 @@ const StyledMainHeader = styled.header`
 		margin-block-start: 0;
 		margin-block-end: 0;
 	}
+
+	.header_left_space {
+		display: flex;
+		flex: 1;
+	}
+
+	.header_right_space {
+		flex: 0 0 360px;
+		margin-left: 30px;
+	}
 `
 
 const StyledSidebar = styled.aside`
@@ -105,7 +115,7 @@ const StyledRightSide = styled.div`
 		color: #8e8d8d;
 		display: block;
 		font-size: 0.9rem;
-		line-height: 1.5;
+		line-height: 1.25;
 		margin-bottom: 12px;
 		padding-top: 12px;
 		text-decoration: none;
@@ -154,8 +164,12 @@ function App(props) {
 			</StyledSidebar>
 			<main>
 				<StyledMainHeader>
-					<h1>All Posts</h1>
-					<SelectDropdown />
+					<div className="header_left_space">
+						<h1>All Posts</h1>
+						<SelectDropdown />
+					</div>
+					<div className="header_right_space">
+					</div>
 				</StyledMainHeader>
 				<section className="content">
 					{ props.fetching && <LoadingView /> }
