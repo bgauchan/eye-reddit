@@ -180,7 +180,7 @@ function App(props) {
 							<StyledRightSide>
 								<section className="recently_visited">
 									<h4>Recently Visited:</h4>
-									{ props.readPosts.map(post => (
+									{ props.readPosts.slice(0, 5).map(post => (
 										<a key={post.id} href={'https://old.reddit.com/' + post.permalink} target='_blank' rel='noopener noreferrer'>
 											{ post.title }
 										</a>

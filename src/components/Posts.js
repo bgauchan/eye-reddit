@@ -6,6 +6,7 @@ const StyledList = styled.ul`
     background: white;
     border: 1px solid #f1f1f1;
     border-radius: 6px;
+    flex-grow: 1;
 `
 
 const StyledEmptyState = styled.div`

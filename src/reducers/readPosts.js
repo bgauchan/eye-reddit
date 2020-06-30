@@ -14,7 +14,7 @@ export const readPostIDs = (state = [], action) => {
 export const readPosts = (state = [], action) => {
     switch (action.type) {
         case MARK_POST_AS_READ:
-            return [...state, action.post]
+            return [action.post, ...state]
         case RECEIVE_READ_POSTS:            
             return action.posts || []
         default:
